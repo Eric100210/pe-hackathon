@@ -24,4 +24,4 @@ df.dtypes
 for name in country_name:
     d[name]=df[df['Country name']==name].drop(columns='Country name').drop(columns='year').sum(axis=0)/l[name]
 
-df2=pd.DataFrame(
+df2=pd.DataFrame(d)
