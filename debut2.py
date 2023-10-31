@@ -19,4 +19,4 @@ liste_pays=[]
 for i in df["Country name"].unique():
     liste_pays.append(group.get_group(i))
 
-sns.pairplot(data=df2.drop(columns=)
+sns.pairplot(data=df2) #graphiques 
