@@ -1,22 +1,53 @@
-import pandas as pd 
+import pandas as pd
 df = pd.DataFrame(pd.read_excel('data2022.xls'))
-df=df.fillna(0)
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 df.head()
+df.columns
 
-#Ensemble des données de 2022
-df2=df[df["year"]==2022]
-df2=df2.set_index("Country name")
+df
 
-#Tableau avec simplement la colonne Life Ladder
-df3=df2[["Life Ladder"]]
-df3.head()
+# +
 
-#liste_pays contient la liste séparée des tableaux de chaque pays
-group=df.groupby("Country name")
-liste_pays=[]
-for i in df["Country name"].unique():
-    liste_pays.append(group.get_group(i))
-print(liste_pays[0])
+mask=(df['year']==2022)
+df1=df.copy()
+df1=df1[mask]
+
+# -
+
+df1=df1.set_index('Country name')
+
+# +
+#df1.plot.scatter(x='Log GDP per capita',y='Life Ladder',title="argent=bonheur")
+# -
+
+df1.plot.scatter(x='Healthy life expectancy at birth',y='Life Ladder',title="plus on est vieux, plus on est heureux ?")
+
+
+
+df2=df1.copy()
+mask=df2['Log GDP per capita'].notna()
+df2=df2[mask]
+df2
+
+pib=np.array(df2['Log GDP per capita'])
+lifeladder=np.array(df2['Life Ladder'])
+len(lifeladder)
+
+pib=pib.reshape((-1,1))
+lifeladder=lifeladder.reshape((-1,1))
+model=LinearRegression()
+model.fit(pib,lifeladder)
+l=(model.coef_,model.intercept_)
+
+plt.scatter(pib,lifeladder)
+y=l[0]*pib+l[1]
+plt.scatter(pib,y)
+
+
+
+
 
 
 
