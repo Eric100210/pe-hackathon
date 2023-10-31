@@ -1,5 +1,6 @@
 import pandas as pd 
 df = pd.DataFrame(pd.read_excel('data2022.xls'))
+df=df.fillna(0)
 df.head()
 
 #Ensemble des données de 2022
@@ -14,7 +15,7 @@ df3.head()
 group=df.groupby("Country name")
 liste_pays=[]
 for i in df["Country name"].unique():
-    liste_pays=group.get_group(df["Country name"].unique()[i])
+    liste_pays.append(group.get_group(i))
 print(liste_pays[0])
 
 
